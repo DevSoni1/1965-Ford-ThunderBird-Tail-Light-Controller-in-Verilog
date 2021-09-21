@@ -1,0 +1,40 @@
+module ThundirBird_TB;
+wire La,Lb,Lc,Ra,Rb,Rc;
+reg Left,Right,Hazard,Clock,Clear;
+
+ThundirBird tail_light(La,Lb,Lc,Ra,Rb,Rc,Left,Right,Hazard,Clear,Clock);
+
+initial
+$display("			Input Signals								Tail Light Sequence");
+initial
+$monitor($time,"  Clear = %b,  Clock = %b,  Left = %b,  Right = %b,  Hazard = %b,	La = %b,  Lb = %b,  Lc = %b,  Ra = %b,  Rb = %b,  Rc = %b",Clear,Clock,Left,Right,Hazard,La,Lb,Lc,Ra,Rb,Rc);
+
+initial
+begin
+	    Clock = 1'b0;
+forever #50 Clock = ~Clock;
+end
+
+/*initial
+/begin 
+	Clear = 1'b1;
+#10	Clear = 1'b0;
+repeat(5)@(posedge Clock);
+	Clear = 1'b1;
+end */
+
+initial
+begin
+	Clear = 1'b0;
+	Left = 1'b0; Right = 1'b0; Hazard = 1'b0;
+#200	Left = 1'b1; Right = 1'b0; Hazard = 1'b0;
+#200	Left = 1'b0; Right = 1'b1; Hazard = 1'b0;
+#200	Left = 1'b0; Right = 1'b1; Hazard = 1'b1;
+#200	Left = 1'b1; Right = 1'b0; Hazard = 1'b1;
+#200	Left = 1'b1; Right = 1'b1; Hazard = 1'b0;
+#200	Clear = 1'b1;
+#200	Left = 1'b1; Right = 1'b1; Hazard = 1'b0;
+#200	$finish;
+end
+
+endmodule
